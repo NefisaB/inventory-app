@@ -31,7 +31,7 @@ router.post("/item/:id/update", item_controller.item_update_post);
 router.get("/item/:id", item_controller.item_detail);
 
 // GET request for lis of all items
-router.get("/items", item_controller.items_list);
+router.get("/items", item_controller.item_list);
 
 
 // CATEGORY ROUTES ///
@@ -58,6 +58,6 @@ router.post("/category/:id/update", category_controller.category_update_post);
 router.get("/category/:id", category_controller.category_detail);
 
 // GET request for lis of all items
-router.get("/categories", category_controller.categories_list);
+router.get("/categories", category_controller.category_list);
 
 module.exports = router;
