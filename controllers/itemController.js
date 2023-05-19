@@ -24,12 +24,15 @@ exports.item_list = asyncHandler(async (req, res, next) => {
         .sort({ name: 1 })
         .exec();
     
-    res.render("item_list", { title: "Item List", item_list: allItems });
+  res.render("item_list", {
+    title: "Item List",
+    item_list: allItems
+  });
 });
 
 // Display detail page for a specific item
 exports.item_detail = asyncHandler(async (req, res, next) => {
-    const item = await Book.findById(req.params.id).populate("category").exec();
+    const item = await Item.findById(req.params.id).populate("category").exec();
 
     if (item === null) {
         // No results

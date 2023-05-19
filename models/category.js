@@ -11,7 +11,7 @@ const CategorySchema = new Schema({
 
 // Virtual property for category's URL
 CategorySchema.virtual("url").get(function () {
-    return `/categories/${this._id}`;
+    return `/catalog/category/${this._id}`;
 });
 
 // Export module

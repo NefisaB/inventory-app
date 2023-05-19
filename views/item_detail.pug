@@ -1,0 +1,10 @@
+extends layout 
+
+block content 
+
+  h1 Category: #{item.name} 
+
+  p 
+    a(href=item.url+'/delete') Delete Item
+  p
+    a(href=item.url+'/update') Update Item
