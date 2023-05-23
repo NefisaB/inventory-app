@@ -2,3 +2,12 @@ extends layout
 
 block content 
   h1= title
+
+  p Do you really want to delete this category? 
+
+    form(method='POST' action='')
+      div.form-group
+        input#categoryid.form-control(type='hidden' name='categoryid'
+        required='true' value=category._id)
+
+        button.btn.btn-danger(type='submit') Delete

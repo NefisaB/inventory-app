@@ -3,3 +3,12 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  p 
+    | There are currently #{item_count} 
+    a(href="/catalog/items") items
+    |  in #{category_count} 
+    a(href="/catalog/categories") categories
+    |  in our inventory.
+
+

@@ -215,13 +215,14 @@ exports.item_update_post = [
     // Extract the validation errors from a request
     const errors = validationResult(req);
 
-    // Create an item object with escaped and trimmed data
+    // Create an item object with escaped and trimmed data and old id
     const item = new Item({
       name: req.body.name,
       description: req.body.description,
       category: req.body.category,
       price: req.body.price,
-      numberInStock: req.body.numberInStock
+      numberInStock: req.body.numberInStock,
+      _id: req.params.id,
     });
 
     if (!errors.isEmpty()) {
@@ -231,7 +232,7 @@ exports.item_update_post = [
       const allCategories = await Category.find().exec();
 
       // Mark selected categories as checked
-      for (const cat of categories) {
+      for (const cat of allCategories) {
         if (item.category.indexOf(cat._id) > -1) {
           cat.checked = "true";
         }
@@ -244,12 +245,9 @@ exports.item_update_post = [
         errors: errors.array()
       });
     } else {
-      // Date form is valid. Save item
-      await item.save();
+      // Date form is valid. Update item
+      const theItem = await Item.findByIdAndUpdate(req.params.id, item, {});
       res.redirect(item.url);
     }
   }),
 ];
-
-
-

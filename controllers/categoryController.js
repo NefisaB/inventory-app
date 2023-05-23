@@ -133,10 +133,11 @@ exports.category_update_post = [
         // Extract the validation errors from a request
         const errors = validationResult(req);
 
-        // Create a category object with escaped and trimmed data
+        // Create a category object with escaped and trimmed data and old id
         const category = new Category({
             name: req.body.name,
-            description: req.body.description
+            description: req.body.description,
+            _id: req.params.id
         });
 
         if (!errors.isEmpty()) {
@@ -146,8 +147,8 @@ exports.category_update_post = [
                 category
             });
         } else {
-            // Data is valid, save category
-            await category.save();
+            // Data is valid, update category
+            const theCategory = await Category.findByIdAndUpdate(req.params.id, category, {});
             res.redirect(category.url);
         }
     }),

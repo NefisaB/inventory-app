@@ -2,7 +2,18 @@ extends layout
 
 block content 
 
-  h1 Category: #{item.name} 
+  h1 Item: #{item.name} 
+
+  h2 #{item.description}
+
+  div #{item.price} $
+  div Items in stock: #{item.numberInStock}
+
+  div Categories:
+    ul 
+      each cat in item.category 
+        li 
+          a(href=cat.url) #{cat.name}
 
   p 
     a(href=item.url+'/delete') Delete Item

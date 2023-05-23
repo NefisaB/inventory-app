@@ -2,3 +2,39 @@ extends layout
 
 block content 
   h1=title
+
+  form(method='POST' action='')
+    div.form-group 
+      label(for='name') Name: 
+      input#name.form-control(type='text' placeholder='Unique name' name='name' 
+      value=(undefined===item ? '' : item.name))
+
+    div.form-group 
+      label(for='description') Description: 
+      input#description.form-control(type='textarea' placeholder='Say something about item...' name='description' 
+      value=(undefined===item ? '' : item.description))
+
+    div.form-group 
+      label Category:
+      div
+        for cat in categories
+          div(style='display: inline; padding-right:10px;')
+            input.checkbox-input(type='checkbox', name='category', id=cat._id, value=cat._id, checked=cat.checked )
+            label(for=cat._id) #{cat.name}
+
+    div.form-group 
+      label Price: 
+      input#price.form-control(type='number' placeholder='0.5' name='price' value=(undefined===item ? '' : item.price))
+
+    div.form-group 
+      label Number in stock: 
+      input#numberInStock.form-control(type='number' placeholder='5' name='numberInStock' value=(undefined===item ? '' : item.numberInStock))
+
+    button.btn.btn-primary(type='submit') Submit 
+
+  
+  if errors 
+    ul 
+      for error in errors 
+        li!= error.msg
+
