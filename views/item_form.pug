@@ -7,24 +7,24 @@ block content
     div.form-group 
       label(for='name') Name: 
       input#name.form-control(type='text' placeholder='Unique name' name='name' 
-      value=(undefined===item ? '' : item.name))
+      value=(undefined===item ? '' : item.name) required)
 
     div.form-group 
       label(for='description') Description: 
       input#description.form-control(type='textarea' placeholder='Say something about item...' name='description' 
-      value=(undefined===item ? '' : item.description))
+      value=(undefined===item ? '' : item.description) required)
 
     div.form-group 
       label Category:
       div
         for cat in categories
           div(style='display: inline; padding-right:10px;')
-            input.checkbox-input(type='checkbox', name='category', id=cat._id, value=cat._id, checked=cat.checked )
+            input.checkbox-input(type='checkbox', name='category', id=cat._id, value=cat._id, checked=cat.checked)
             label(for=cat._id) #{cat.name}
 
     div.form-group 
       label Price: 
-      input#price.form-control(type='number' placeholder='0.5' name='price' value=(undefined===item ? '' : item.price))
+      input#price.form-control(type='number' placeholder='0.5' name='price' value=(undefined===item ? '' : item.price) required)
 
     div.form-group 
       label Number in stock: 

@@ -73,7 +73,7 @@ exports.item_create_post = [
     // Validate and sanitize fields
     body("name", "Name must not be empty.")
         .trim()
-        .isLength({ min: 5 })
+        .isLength({ min: 2 })
         .escape(),
     body("description", "Description must not be empty")
         .trim()
@@ -108,7 +108,7 @@ exports.item_create_post = [
             const allCategories = await Category.find().exec();
 
             // Mark selected categories as checked
-            for (const cat of categories) {
+            for (const cat of allCategories) {
                 if (item.category.indexOf(cat._id) > -1) {
                     cat.checked = "true";
                 }

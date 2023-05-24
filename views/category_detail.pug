@@ -4,6 +4,12 @@ block content
 
   h1 Category: #{category.name} 
 
+  h2 Items in this category: 
+  ul 
+    each item in items 
+      li 
+        a(href=item.url) #{item.name}
+
   p 
     a(href=category.url+'/delete') Delete Category
   p
