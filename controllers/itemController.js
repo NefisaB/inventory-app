@@ -4,6 +4,35 @@ const Category = require("../models/category");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './uploads/');
+  },
+  filename: function(req, file, cb) {
+    cb(null, new Date().toISOString() + file.originalname);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  // reject a file
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter
+});
+
+
 exports.index = asyncHandler(async (req, res, next) => {
     // Get details of items and categories count 
     const [numItems, numCategories] = await Promise.all([
@@ -32,7 +61,7 @@ exports.item_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific item
 exports.item_detail = asyncHandler(async (req, res, next) => {
-    const item = await Item.findById(req.params.id).populate("category").exec();
+  const item = await Item.findById(req.params.id).populate("category").exec();
 
     if (item === null) {
         // No results
@@ -68,7 +97,10 @@ exports.item_create_post = [
             else req.body.category = new Array(req.body.category);
         }
         next();
-    },
+  },
+  
+  // image file
+    upload.single('image'),
 
     // Validate and sanitize fields
     body("name", "Name must not be empty.")
@@ -85,10 +117,11 @@ exports.item_create_post = [
         .escape(),
     body("numberInStock", "Number in stock must not be empty")
         .trim()
-        .escape(),
+    .escape(),
     
     // Process request after validation and sanitization
-    asyncHandler(async (req, res, next) => {
+  asyncHandler(async (req, res, next) => {
+        console.log(req.file);
         // Extract the validation errors from a request
         const errors = validationResult(req);
 
@@ -98,7 +131,8 @@ exports.item_create_post = [
             description: req.body.description,
             category: req.body.category,
             price: req.body.price,
-            numberInStock: req.body.numberInStock
+            numberInStock: req.body.numberInStock, 
+            image: req.file.path
         });
 
         if (!errors.isEmpty()) {
@@ -193,6 +227,9 @@ exports.item_update_post = [
     }
     next();
   },
+
+  // image file
+    upload.single('image'),
   // Validate and sanitize fields
   body("name", "Name must not be empty.")
     .trim()
@@ -222,6 +259,7 @@ exports.item_update_post = [
       category: req.body.category,
       price: req.body.price,
       numberInStock: req.body.numberInStock,
+      image: req.file.path,
       _id: req.params.id,
     });
 

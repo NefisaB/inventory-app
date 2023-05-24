@@ -1,9 +1,9 @@
 extends layout 
-
+ 
 block content 
   h1=title
 
-  form(method='POST' action='')
+  form(method='POST' action='' enctype='multipart/form-data')
     div.form-group 
       label(for='name') Name: 
       input#name.form-control(type='text' placeholder='Unique name' name='name' 
@@ -29,6 +29,10 @@ block content
     div.form-group 
       label Number in stock: 
       input#numberInStock.form-control(type='number' placeholder='5' name='numberInStock' value=(undefined===item ? '' : item.numberInStock))
+
+    div.form-group
+      label Photo: 
+      input#image.form-control(type='file' name='image')
 
     button.btn.btn-primary(type='submit') Submit 
 
